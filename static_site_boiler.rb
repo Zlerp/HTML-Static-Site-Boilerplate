@@ -1,4 +1,9 @@
 
+def open(shit)
+  puts shit
+end
+
+
 puts "What would you like to name the Static Site?"
 
 site = gets.chomp.downcase
@@ -16,6 +21,24 @@ puts Dir.pwd
 server = File.open("server.rb", "w") { |file| file.write("require 'sinatra'\n\nget '/' do\n\tFile.read(File.join('public/*', 'index.html'))\nend") }
 procfile = File.open("Procfile", "w") { |file| file.write("web: ruby server.rb -p $PORT") }
 gemfile = File.open("Gemfile", "w") { |file| file.write("source 'https://rubygems.org'\n\nruby '#{version}'\n\ngem 'sinatra'") }
+
+items = ["a","b","c"]
+puts "Choose the items you want to add to your HTML site:\n
+a. Font Awesome\n
+b. Burbon\n
+"
+choice = gets.chomp.downcase
+
+
+
+open("Open A") if choice.include?('a')
+open("Open B") if choice.include?('b')
+
+
+puts 'test'
+
+
+
 
 pub = "#{directory}/public"
 Dir.mkdir(pub)
