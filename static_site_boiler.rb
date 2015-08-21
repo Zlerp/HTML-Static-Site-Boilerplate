@@ -19,8 +19,6 @@ def open(item)
         <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css\">
         <script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js\"></script>
       "}
-  when "d"
-    puts "Something Added"
   when "e"
     puts "Google's Material Design Added"
     html = File.open("index.html", "a+"){|f|
@@ -29,6 +27,17 @@ def open(item)
       <script src=\"https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js\"></script>
       <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons\">
       "}
+  when "f"
+    puts "jQuery Added"
+    html = File.open("index.html", "a+"){|f|
+      f <<
+      "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>"}
+  when "g"
+    puts "jQuery Mobile Added"
+    html = File.open("index.html", "a+"){|f|
+      f <<"
+      <link rel=\"stylesheet\" href=\"https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css\">
+      <script src=\"https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js\"></script>"
   end
 end
 
@@ -54,12 +63,14 @@ gemfile = File.open("Gemfile", "w") { |file| file.write("source 'https://rubygem
 items = ["a","b","c"]
 puts "Choose the items you want to add to your HTML site:\n
 ie: \"adf\" will give add Font Awesome, Materialize, and Material Design\n
+***BE CAREFUL WHEN USING MORE THAN ONE***\n
 a. Font Awesome\n
 b. Burbon\n
 c. TwitterBootstrap\n
 d. Materialize\n
-e. Something\n
-f. Google's Material Design\n
+e. Google's Material Design\n
+f. jQuery\n
+g. jQuery Mobile\n
 "
 choice = gets.chomp.downcase
 
@@ -67,13 +78,6 @@ choice = gets.chomp.downcase
 
 open("a") if choice.include?('a')
 open("b") if choice.include?('b')
-
-
-
-
-puts 'test'
-
-
 
 
 pub = "#{directory}/public"
@@ -95,6 +99,7 @@ open("c") if choice.include?('c')
 open("d") if choice.include?('d')
 open("e") if choice.include?('e')
 open("f") if choice.include?('f')
+open("g") if choice.include?('g')
 
 
 html = File.open("index.html", "a+"){|f| f << "
