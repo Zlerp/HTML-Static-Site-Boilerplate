@@ -1,6 +1,14 @@
 
 require 'fileutils'
 
+account = "ZachP"   # => Change this to your Username.
+version = "2.2.2"   # => Ruby Version
+puts "What would you like to name the Static Site?"
+site = gets.chomp.downcase
+dir = "/Users/#{account}"
+directory = "#{dir}/Documents/Projects/Static/#{site}" # => Enter your Directory with the VARIABLES!
+
+
 def open(item)
   case item
   when "a"
@@ -16,8 +24,8 @@ def open(item)
     puts "Materialize Added"
     html = File.open("index.html", "a+"){|f|
       f << "
-        <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css\">
-        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js\"></script>
+      <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css\">
+      <script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js\"></script>
       "}
   when "e"
     puts "Google's Material Design Added"
@@ -37,24 +45,15 @@ def open(item)
     html = File.open("index.html", "a+"){|f|
       f <<"
       <link rel=\"stylesheet\" href=\"https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css\">
-      <script src=\"https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js\"></script>"
+      <script src=\"https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js\"></script>"}
+  when "z"
+      %x(ruby server.rb)
   end
 end
-
-
-puts "What would you like to name the Static Site?"
-
-site = gets.chomp.downcase
-account = "ZachP"
-dir = "/Users/#{account}"   # => Change this to your Username.
-version = "2.2.2"   # => Ruby Version
-
-directory = "#{dir}/Documents/Projects/Static/#{site}" # => Enter your Directory with the VARIABLES!
 
 Dir.mkdir(directory)
 Dir.chdir(directory)
 puts Dir.pwd
-
 
 server = File.open("server.rb", "w") { |file| file.write("require 'sinatra'\n\nget '/' do\n\tFile.read(File.join('public/', 'index.html'))\nend") }
 procfile = File.open("Procfile", "w") { |file| file.write("web: ruby server.rb -p $PORT") }
@@ -71,19 +70,16 @@ d. Materialize\n
 e. Google's Material Design\n
 f. jQuery\n
 g. jQuery Mobile\n
+z. Start the Sever Imediately
 "
 choice = gets.chomp.downcase
-
-
 
 open("a") if choice.include?('a')
 open("b") if choice.include?('b')
 
-
 pub = "#{directory}/public"
 Dir.mkdir(pub)
 Dir.chdir(pub)
-
 
 html = File.open("index.html", "w") { |file| file.write("
   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/reset.css\">
@@ -172,4 +168,4 @@ table {
   %x(bundle install)
   puts "Bundle Complete!"
 
-  %x(ruby server.rb)
+  open("z") if choice.include?('z')
