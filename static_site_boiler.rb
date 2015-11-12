@@ -1,8 +1,8 @@
 
 require 'fileutils'
 
-account = "ZachP"   # => Change this to your Username.
-version = "2.2.2"   # => Ruby Version
+account = "Zach"   # => Change this to your Username.
+version = "2.2.3"   # => Ruby Version
 puts "What would you like to name the Static Site?"
 site = gets.chomp.downcase
 dir = "/Users/#{account}"
@@ -46,6 +46,110 @@ def open(item)
       f <<"
       <link rel=\"stylesheet\" href=\"https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css\">
       <script src=\"https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js\"></script>"}
+  when "h"
+    puts "Grid System Added"
+    html = File.open("../index.html", "a+"){|f|
+      f <<"
+        <!-- EXAMPLE OF GRID -->
+        <div class=\"section group\">
+          <div class=\"col col1 txtCent\">
+          1 of 12
+          </div>
+          <div class=\"col col2 txtCent\">
+          2 of 12
+          </div>
+          <div class=\"col col3 txtCent\">
+          3 of 12
+          </div>
+          <div class=\"col col6 txtCent\">
+          6 of 12
+          </div>
+        </div>
+      "}
+    gridFile = File.open("grid.css", "w") { |file| file.write("
+        /*  SECTIONS  */
+        .section {
+        	clear: both;
+        	padding: 0px;
+        	margin: 0px;
+        }
+
+        /*  COLUMN SETUP  */
+        .col {
+        	display: block;
+        	float:left;
+        	margin: 1% 0 1% 1.6%;
+        }
+        .col:first-child { margin-left: 0; }
+
+        /*  GROUPING  */
+        .group:before,
+        .group:after { content:""; display:table; }
+        .group:after { clear:both;}
+        .group { zoom:1; /* For IE 6/7 */ }
+        /*  GRID OF TWELVE  */
+        .col12 {
+        	width: 100%;
+        }
+
+        .col11 {
+          	width: 91.53%;
+        }
+        .col10 {
+          	width: 83.06%;
+        }
+
+        .col9 {
+          	width: 74.6%;
+        }
+
+        .col8 {
+          	width: 66.13%;
+        }
+
+        .col7 {
+          	width: 57.66%;
+        }
+
+        .col6 {
+          	width: 49.2%;
+        }
+
+        .col5 {
+          	width: 40.73%;
+        }
+
+        .col4 {
+          	width: 32.26%;
+        }
+
+        .col3 {
+          	width: 23.8%;
+        }
+
+        .col2 {
+          	width: 15.33%;
+        }
+
+        .col1 {
+          	width: 6.866%;
+        }
+
+        /*  GO FULL WIDTH BELOW 480 PIXELS */
+        @media only screen and (max-width: 480px) {
+        	.col {  margin: 1% 0 1% 0%; }
+
+            .col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9, .col10, .col11, .col12 {
+        	width: 100%;
+        	}
+        }
+        /* CENTER TEXT */
+        .txtCent{
+        text-align: center;
+        }
+      ") }
+
+
   when "z"
       %x(ruby server.rb)
   end
@@ -70,6 +174,7 @@ d. Materialize\n
 e. Google's Material Design\n
 f. jQuery\n
 g. jQuery Mobile\n
+h. CSS Mobile Responsive Grid\n
 z. Start the Sever Imediately
 "
 choice = gets.chomp.downcase
@@ -84,12 +189,13 @@ Dir.chdir(pub)
 html = File.open("index.html", "w") { |file| file.write("
   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/reset.css\">
   <link rel=\"stylesheet\" type=\"text/css\" href=\"css/stylesheet.css\">
+  <!-- if you do not want to use Grid System, delete the line below -->
+  <link rel=\"stylesheet\" type=\"text/css\" href=\"css/grid.css\">
   <!DOCTYPE html>
 <html>
   <head>
     <meta charset=\"utf-8\">
-     <title></title>
-    ")}
+     <title></title>")}
 
 open("c") if choice.include?('c')
 open("d") if choice.include?('d')
@@ -101,13 +207,18 @@ open("g") if choice.include?('g')
 html = File.open("index.html", "a+"){|f| f << "
   </head>
   <body>
-  <h2>#{site.capitalize}</h2>
-  </body>
-</html>
-"}
+  <h2>#{site.capitalize}</h2>"}
 
 Dir.mkdir("#{pub}/css")
 Dir.chdir("#{pub}/css")
+
+
+open("h") if choice.include?('h')
+
+html = File.open("../index.html", "a+"){|f| f << "
+  </body>
+</html>
+"}
 
 css = File.open("stylesheet.css", "w") { }
 
